@@ -22,6 +22,16 @@ var schema = new Schema({
     type: Number
   },
 
+  backgroundimage:{
+    type:String,
+    default:""
+  },
+
+  footerimage:{
+    type:String,
+    default:""
+  },
+
   status: {
     type: String,
     enum: ["true", "false"]
