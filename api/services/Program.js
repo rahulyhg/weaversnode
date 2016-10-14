@@ -19,15 +19,15 @@ content : {
   default: ""
 },
 
-backgroundimage:{
-  type:String,
-  default:""
-},
-
-footerimage:{
-  type:String,
-  default:""
-},
+// backgroundimage:{
+//   type:String,
+//   default:""
+// },
+//
+// footerimage:{
+//   type:String,
+//   default:""
+// },
 
 order : {
   type: Number,
