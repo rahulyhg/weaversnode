@@ -24,7 +24,7 @@ var schema = new Schema({
     type: String
   },
 
-  note: {
+  message: {
     type: String
   },
 
