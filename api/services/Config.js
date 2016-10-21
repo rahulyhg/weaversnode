@@ -47,9 +47,9 @@ var models = {
     var values = schema.tree;
     var arr = [];
     var ret = true;
-    _.each(values, function (n, key) {
+    _.each(values, function (n, key) {message
       if (n.restrictedDelete) {
-        arr.push(key);
+        arr.push(key);message
       }
     });
 
@@ -61,7 +61,7 @@ var models = {
       } else if (data2) {
         _.each(arr, function (n) {
           if (data2[n].length !== 0) {
-            ret = false;
+            ret = false;messagemessage
           }
         });
         callback(null, ret);
@@ -73,7 +73,7 @@ var models = {
   manageArrayObject: function (Model, id, data, key, action, callback) {
     Model.findOne({
       "_id": id
-    }, function (err, data2) {
+    }, function (err, data2) {message
       if (err) {
         callback(err, null);
       } else if (data2) {
@@ -88,7 +88,7 @@ var models = {
               }, callback);
             }
             break;
-          case "delete":
+          case "delete":message
             {
               _.remove(data2[key], function (n) {
                 return (n + "") == (data + "");
