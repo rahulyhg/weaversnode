@@ -24,6 +24,7 @@
     "lodash": "^4.16.2",
     "lwip": "0.0.9",
     "md5": "^2.2.1",
+    "moment": "^2.15.1",
     "mongodb": "^2.2.10",
     "mongoose": "^4.6.1",
     "mongoose-deep-populate": "^3.0.0",
@@ -33,10 +34,12 @@
     "mongoose-validators": "^0.1.0",
     "monguurl": "^0.1.0",
     "rc": "1.0.1",
+    "request": "^2.75.0",
     "sails": "~0.12.4",
     "sails-disk": "~0.10.9",
     "sails-wohlig-controller": "0.0.2",
     "sails-wohlig-service": "0.0.6",
+    "sendgrid": "^4.7.0",
     "wohlig": "0.0.12"
   },
   "scripts": {
