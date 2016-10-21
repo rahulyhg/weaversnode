@@ -13,7 +13,7 @@ var process = require('child_process');
 var lodash = require('lodash');
 var moment = require("moment");
 var MaxImageSize = 1200;
-var requrl = "http://localhost:1337/";
+var requrl = "http://104.155.129.33:91/";
 var moment = require('moment');
 var request = require("request");
 // var sendgrid = require('sendgrid');
@@ -206,7 +206,7 @@ var models = {
                     ratio: image2.width() / image2.height()
                   };
                   image2.writeFile(filename, function (err) {
-                    writer2(upImage);
+                    writer2(upImage);1337
                   });
                 }
               });
