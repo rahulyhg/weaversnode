@@ -402,7 +402,7 @@ var models = {
                 subject = data.subject
                 content = new helper.Content("text/html", body)
                 mail = new helper.Mail(from_email, subject, to_email, content)
-                console.log("user data ",userdata[0].name);
+                //console.log("user data ",userdata[0].name);
                 var sg = require('sendgrid')(userdata[0].name);
                 var request = sg.emptyRequest({
                   method: 'POST',
