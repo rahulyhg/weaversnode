@@ -16,11 +16,7 @@ var schema = new Schema({
     default: ""
   },
 
-  email:{
-      type:String,
-      validate:validators.isEmail(),
-      unique:true
-    },
+  email: String,
 
   mobile: {
     type: String
@@ -28,11 +24,6 @@ var schema = new Schema({
 
   message: {
     type: String
-  },
-
-  status: {
-    type: String,
-    enum: ["true", "false"]
   }
 
 });
@@ -53,26 +44,27 @@ var model = {
         callback(err, null);
       } else if (data3){
         var emailData = {};
-        emailData.to = "parmarpriyank94@gmail.com"
-        emailData.email = data.email;
-        emailData.mobile = data.mobile;
-        emailData.message = data.message;
-        emailData.filename = "contactmail.ejs";
-        emailData.name = data.name;
-        emailData.subject = "Contact Us Form Details";
-        console.log("email data : ",emailData);
+        // emailData.to = ["<harsh@wohlig.com>","Priyank parmar<parmarpriyank94@gmail.com>"];
+          emailData.email = data.email;
+          emailData.mobile = data.mobile;
+          emailData.message = data.message;
+          emailData.filename = "contactmail.ejs";
+          emailData.name = data.name;
+          emailData.subject = "Contact Us Form Details";
+          console.log("email data : ",emailData);
 
-        Config.email(emailData, function (err, emailRespo) {
-          if (err) {
-            console.log(err);
-            callback(err, null);
-          } else if(emailRespo){
-            console.log("email respo");
-            callback(null, emailRespo);
-          } else{
-            callback(null, "Invalid data");
-          }
-        });
+          Config.email(emailData, function (err, emailRespo) {
+            if (err) {
+              console.log(err);
+              callback(err, null);
+            } else if(emailRespo){
+              console.log("email respo");
+              //callback(null, emailRespo);
+            } else{
+              callback(null, "Invalid data");
+            }
+          });
+          
       }
       else{
         callback(null, "Invalid data");

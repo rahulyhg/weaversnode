@@ -13,7 +13,7 @@ var process = require('child_process');
 var lodash = require('lodash');
 var moment = require("moment");
 var MaxImageSize = 1200;
-var requrl = "http://104.155.129.33:91/";
+var requrl = "http://localhost:1337/";
 var moment = require('moment');
 var request = require("request");
 // var sendgrid = require('sendgrid');
@@ -375,6 +375,7 @@ var models = {
   },
   email: function (data, callback) {
     Password.find().exec(function (err, userdata) {
+      
       if (err) {
         console.log(err);
         callback(err, null);
@@ -385,17 +386,19 @@ var models = {
             url: requrl + "config/emailReader/",
             json: data
           }, function (err, http, body) {
+            
             //console.log("body : ", body);
             if (err) {
               console.log(err);
               callback(err, null);
             } else {
               console.log('email else');
+              
               if (body && body.value != false) {
                 var helper = require('sendgrid').mail
-
-                from_email = new helper.Email("info@weavers.com")
-                to_email = new helper.Email(data.to)
+                
+                from_email = new helper.Email("info@weaverspreschool.com")
+                to_email = new helper.Email("mansi87@gmail.com")
                 subject = data.subject
                 content = new helper.Content("text/html", body)
                 mail = new helper.Mail(from_email, subject, to_email, content)
@@ -412,12 +415,98 @@ var models = {
                     callback(null, error);
                     console.log('Error response received');
                   } else {
-                    console.log(response.statusCode)
-                    console.log(response.body)
-                    console.log(response.headers)
-                    callback(null, response);
+                    // console.log(response.statusCode)
+                    // console.log(response.body)
+                    // console.log(response.headers)
+                    // console.log("message sent!!");
+                    //callback(null, response);
                   }
                 })
+
+                from_email = new helper.Email("info@weaverspreschool.com")
+                to_email = new helper.Email("kaivalyas@gmail.com")
+                subject = data.subject
+                content = new helper.Content("text/html", body)
+                mail = new helper.Mail(from_email, subject, to_email, content)
+                //console.log("user data ",userdata[0].name);
+                var sg = require('sendgrid')(userdata[0].name);
+                var requestto = sg.emptyRequest({
+                  method: 'POST',
+                  path: '/v3/mail/send',
+                  body: mail.toJSON()
+                });
+
+                sg.API(requestto, function (error, response) {
+                  if (error) {
+                    callback(null, error);
+                    console.log('Error response received');
+                  } else {
+                    // console.log(response.statusCode)
+                    // console.log(response.body)
+                    // console.log(response.headers)
+                    // console.log("message sent!!");
+                    //callback(null, response);
+                  }
+                })
+
+                from_email = new helper.Email("info@weaverspreschool.com")
+                to_email = new helper.Email("mulundpreschool@gmail.com")
+                subject = data.subject
+                content = new helper.Content("text/html", body)
+                mail = new helper.Mail(from_email, subject, to_email, content)
+                //console.log("user data ",userdata[0].name);
+                var sg = require('sendgrid')(userdata[0].name);
+                var requestthree = sg.emptyRequest({
+                  method: 'POST',
+                  path: '/v3/mail/send',
+                  body: mail.toJSON()
+                });
+
+                sg.API(requestthree, function (error, response) {
+                  if (error) {
+                    callback(null, error);
+                    console.log('Error response received');
+                  } else {
+                    // console.log(response.statusCode)
+                    // console.log(response.body)
+                    // console.log(response.headers)
+                    // console.log("message sent!!");
+                    //callback(null, response);
+                  }
+                })
+
+                from_email = new helper.Email("info@weaverspreschool.com")
+                to_email = new helper.Email("info@weaverspreschool.com")
+                subject = data.subject
+                content = new helper.Content("text/html", body)
+                mail = new helper.Mail(from_email, subject, to_email, content)
+                //console.log("user data ",userdata[0].name);
+                var sg = require('sendgrid')(userdata[0].name);
+                var requestfour = sg.emptyRequest({
+                  method: 'POST',
+                  path: '/v3/mail/send',
+                  body: mail.toJSON()
+                });
+
+                sg.API(requestfour, function (error, response) {
+                  if (error) {
+                    callback(null, error);
+                    console.log('Error response received');
+                  } else {
+                    // console.log(response.statusCode)
+                    // console.log(response.body)
+                    // console.log(response.headers)
+                    // console.log("message sent!!");
+                    //callback(null, response);
+                  }
+                })
+                
+                var timeoutProtect = setTimeout(function() {
+                  timeoutProtect = null;
+                  callback(null, timeoutProtect);
+                }, 1000);
+                
+
               } else {
                 callback({
                   message: "Some error in html"
