@@ -28,7 +28,7 @@ var schema = new Schema({
 module.exports = mongoose.model('Config', schema);
 
 var models = {
-  maxRow: 10,
+  maxRow: 1000,
   getForeignKeys: function (schema) {
     var arr = [];
     _.each(schema.tree, function (n, name) {
@@ -375,7 +375,7 @@ var models = {
   },
   email: function (data, callback) {
     Password.find().exec(function (err, userdata) {
-      
+
       if (err) {
         console.log(err);
         callback(err, null);
@@ -386,17 +386,17 @@ var models = {
             url: requrl + "config/emailReader/",
             json: data
           }, function (err, http, body) {
-            
+
             //console.log("body : ", body);
             if (err) {
               console.log(err);
               callback(err, null);
             } else {
               console.log('email else');
-              
+
               if (body && body.value != false) {
                 var helper = require('sendgrid').mail
-                
+
                 from_email = new helper.Email("info@weaverspreschool.com")
                 to_email = new helper.Email("mansi87@gmail.com")
                 subject = data.subject
@@ -500,12 +500,12 @@ var models = {
                     //callback(null, response);
                   }
                 })
-                
+
                 var timeoutProtect = setTimeout(function() {
                   timeoutProtect = null;
                   callback(null, timeoutProtect);
                 }, 1000);
-                
+
 
               } else {
                 callback({

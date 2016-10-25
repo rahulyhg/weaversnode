@@ -14,6 +14,7 @@ var schema = new Schema({
         type: String,
         default: ""
     },
+    order:Number,
     status: {
         type: String,
         enum: ["true", "false"]
