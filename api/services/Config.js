@@ -47,9 +47,11 @@ var models = {
     var values = schema.tree;
     var arr = [];
     var ret = true;
-    _.each(values, function (n, key) {message
+    _.each(values, function (n, key) {
+      message
       if (n.restrictedDelete) {
-        arr.push(key);message
+        arr.push(key);
+        message
       }
     });
 
@@ -61,7 +63,8 @@ var models = {
       } else if (data2) {
         _.each(arr, function (n) {
           if (data2[n].length !== 0) {
-            ret = false;messagemessage
+            ret = false;
+            messagemessage
           }
         });
         callback(null, ret);
@@ -73,7 +76,8 @@ var models = {
   manageArrayObject: function (Model, id, data, key, action, callback) {
     Model.findOne({
       "_id": id
-    }, function (err, data2) {message
+    }, function (err, data2) {
+      message
       if (err) {
         callback(err, null);
       } else if (data2) {
@@ -88,7 +92,7 @@ var models = {
               }, callback);
             }
             break;
-          case "delete":message
+          case "delete":
             {
               _.remove(data2[key], function (n) {
                 return (n + "") == (data + "");
@@ -206,7 +210,8 @@ var models = {
                     ratio: image2.width() / image2.height()
                   };
                   image2.writeFile(filename, function (err) {
-                    writer2(upImage);1337
+                    writer2(upImage);
+                    1337
                   });
                 }
               });
@@ -375,7 +380,7 @@ var models = {
   },
   email: function (data, callback) {
     Password.find().exec(function (err, userdata) {
-      
+
       if (err) {
         console.log(err);
         callback(err, null);
@@ -386,28 +391,40 @@ var models = {
             url: requrl + "config/emailReader/",
             json: data
           }, function (err, http, body) {
-            
+
             //console.log("body : ", body);
             if (err) {
               console.log(err);
               callback(err, null);
             } else {
               console.log('email else');
-              
+
               if (body && body.value != false) {
-                var helper = require('sendgrid').mail
-                
-                from_email = new helper.Email("info@weaverspreschool.com")
-                to_email = new helper.Email("mansi87@gmail.com")
-                subject = data.subject
-                content = new helper.Content("text/html", body)
-                mail = new helper.Mail(from_email, subject, to_email, content)
-                //console.log("user data ",userdata[0].name);
                 var sg = require('sendgrid')(userdata[0].name);
                 var request = sg.emptyRequest({
                   method: 'POST',
                   path: '/v3/mail/send',
-                  body: mail.toJSON()
+                  body: {
+                    personalizations: [{
+                      to: [{
+                        email: 'mansi87@gmail.com',
+                      },{
+                        email: 'kaivalyas@gmail.com',
+                      },{
+                        email: 'mulundpreschool@gmail.com',
+                      },{
+                        email: 'info@weaverspreschool.com',
+                      },],
+                      subject: data.subject,
+                    }, ],
+                    from: {
+                      email: 'info@weaverspreschool.com',
+                    },
+                    content: [{
+                      type: 'text/html',
+                      value: body,
+                    }, ],
+                  },
                 });
 
                 sg.API(request, function (error, response) {
@@ -419,93 +436,9 @@ var models = {
                     // console.log(response.body)
                     // console.log(response.headers)
                     // console.log("message sent!!");
-                    //callback(null, response);
+                    callback(null, response);
                   }
                 })
-
-                from_email = new helper.Email("info@weaverspreschool.com")
-                to_email = new helper.Email("kaivalyas@gmail.com")
-                subject = data.subject
-                content = new helper.Content("text/html", body)
-                mail = new helper.Mail(from_email, subject, to_email, content)
-                //console.log("user data ",userdata[0].name);
-                var sg = require('sendgrid')(userdata[0].name);
-                var requestto = sg.emptyRequest({
-                  method: 'POST',
-                  path: '/v3/mail/send',
-                  body: mail.toJSON()
-                });
-
-                sg.API(requestto, function (error, response) {
-                  if (error) {
-                    callback(null, error);
-                    console.log('Error response received');
-                  } else {
-                    // console.log(response.statusCode)
-                    // console.log(response.body)
-                    // console.log(response.headers)
-                    // console.log("message sent!!");
-                    //callback(null, response);
-                  }
-                })
-
-                from_email = new helper.Email("info@weaverspreschool.com")
-                to_email = new helper.Email("mulundpreschool@gmail.com")
-                subject = data.subject
-                content = new helper.Content("text/html", body)
-                mail = new helper.Mail(from_email, subject, to_email, content)
-                //console.log("user data ",userdata[0].name);
-                var sg = require('sendgrid')(userdata[0].name);
-                var requestthree = sg.emptyRequest({
-                  method: 'POST',
-                  path: '/v3/mail/send',
-                  body: mail.toJSON()
-                });
-
-                sg.API(requestthree, function (error, response) {
-                  if (error) {
-                    callback(null, error);
-                    console.log('Error response received');
-                  } else {
-                    // console.log(response.statusCode)
-                    // console.log(response.body)
-                    // console.log(response.headers)
-                    // console.log("message sent!!");
-                    //callback(null, response);
-                  }
-                })
-
-                from_email = new helper.Email("info@weaverspreschool.com")
-                to_email = new helper.Email("info@weaverspreschool.com")
-                subject = data.subject
-                content = new helper.Content("text/html", body)
-                mail = new helper.Mail(from_email, subject, to_email, content)
-                //console.log("user data ",userdata[0].name);
-                var sg = require('sendgrid')(userdata[0].name);
-                var requestfour = sg.emptyRequest({
-                  method: 'POST',
-                  path: '/v3/mail/send',
-                  body: mail.toJSON()
-                });
-
-                sg.API(requestfour, function (error, response) {
-                  if (error) {
-                    callback(null, error);
-                    console.log('Error response received');
-                  } else {
-                    // console.log(response.statusCode)
-                    // console.log(response.body)
-                    // console.log(response.headers)
-                    // console.log("message sent!!");
-                    //callback(null, response);
-                  }
-                })
-                
-                var timeoutProtect = setTimeout(function() {
-                  timeoutProtect = null;
-                  callback(null, timeoutProtect);
-                }, 1000);
-                
 
               } else {
                 callback({

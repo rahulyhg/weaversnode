@@ -44,7 +44,6 @@ var model = {
         callback(err, null);
       } else if (data3){
         var emailData = {};
-        // emailData.to = ["<harsh@wohlig.com>","Priyank parmar<parmarpriyank94@gmail.com>"];
           emailData.email = data.email;
           emailData.mobile = data.mobile;
           emailData.message = data.message;
@@ -59,7 +58,7 @@ var model = {
               callback(err, null);
             } else if(emailRespo){
               console.log("email respo");
-              //callback(null, emailRespo);
+              callback(null, emailRespo);
             } else{
               callback(null, "Invalid data");
             }
