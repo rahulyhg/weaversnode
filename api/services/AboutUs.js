@@ -15,6 +15,7 @@ var schema = new Schema({
   },
 
   content : {
+    
     type: String
   },
 
