@@ -5,17 +5,24 @@
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
+
+
+
 var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var fs = require("fs");
-var fse = require('fs-extra')
 var lwip = require("lwip");
 var process = require('child_process');
 var lodash = require('lodash');
+var moment = require("moment");
 var MaxImageSize = 1200;
-
+var requrl = "http://localhost:1337/";
+var moment = require('moment');
+var request = require("request");
+// var sendgrid = require('sendgrid');
 var gfs = Grid(mongoose.connections[0].db, mongoose);
 gfs.mongo = mongoose.mongo;
+
 
 var Schema = mongoose.Schema;
 var schema = new Schema({
@@ -25,148 +32,52 @@ var schema = new Schema({
 module.exports = mongoose.model('Config', schema);
 
 var models = {
-<<<<<<< HEAD
-  maxRow: 10,
-  getForeignKeys: function (schema) {
-    var arr = [];
-    _.each(schema.tree, function (n, name) {
-      if (n.key) {
-        arr.push({
-          name: name,
-          ref: n.ref,
-          key: n.key
-        });
-      }
-    });
-    return arr;
-  },
-  checkRestrictedDelete: function (Model, schema, data, callback) {
-
-    var values = schema.tree;
-    var arr = [];
-    var ret = true;
-    _.each(values, function (n, key) {
-      message
-      if (n.restrictedDelete) {
-        arr.push(key);
-        message
-      }
-    });
-
-    Model.findOne({
-      "_id": data._id
-    }, function (err, data2) {
-      if (err) {
-        callback(err, null);
-      } else if (data2) {
-        _.each(arr, function (n) {
-          if (data2[n].length !== 0) {
-            ret = false;
-            messagemessage
-          }
-        });
-        callback(null, ret);
-      } else {
-        callback("No Data Found", null);
-      }
-    });
-  },
-  manageArrayObject: function (Model, id, data, key, action, callback) {
-    Model.findOne({
-      "_id": id
-    }, function (err, data2) {
-      message
-      if (err) {
-        callback(err, null);
-      } else if (data2) {
-        switch (action) {
-          case "create":
-            {
-              data2[key].push(data);
-              data2[key] = _.unique(data2[key]);
-              console.log(data2[key]);
-              data2.update(data2, {
-                w: 1
-              }, callback);
-            }
-            break;
-          case "delete":
-            {
-              _.remove(data2[key], function (n) {
-                return (n + "") == (data + "");
-              });
-              data2.update(data2, {
-                w: 1
-              }, callback);
-=======
     maxRow: 10,
-    getForeignKeys: function(schema) {
+    getForeignKeys: function (schema) {
         var arr = [];
-        _.each(schema.tree, function(n, name) {
+        _.each(schema.tree, function (n, name) {
             if (n.key) {
                 arr.push({
                     name: name,
                     ref: n.ref,
                     key: n.key
                 });
->>>>>>> 4b6b5a2d5f4f78f322f064637ae329c6d02b70d2
             }
         });
         return arr;
     },
-    checkRestrictedDelete: function(Model, schema, data, callback) {
+    checkRestrictedDelete: function (Model, schema, data, callback) {
 
         var values = schema.tree;
         var arr = [];
         var ret = true;
-        _.each(values, function(n, key) {
+        _.each(values, function (n, key) {
             if (n.restrictedDelete) {
                 arr.push(key);
             }
         });
 
-<<<<<<< HEAD
-          if (upImage.width > upImage.height) {
-            if (upImage.width > MaxImageSize) {
-              image.resize(MaxImageSize, MaxImageSize / (upImage.width / upImage.height), function (err, image2) {
-                if (err) {
-                  console.log(err);
-                  callback(err, null);
-                } else {
-                  upImage = {
-                    width: image2.width(),
-                    height: image2.height(),
-                    ratio: image2.width() / image2.height()
-                  };
-                  image2.writeFile(filename, function (err) {
-                    writer2(upImage);
-                    1337
-                  });
-                }
-              });
-=======
         Model.findOne({
             "_id": data._id
-        }, function(err, data2) {
+        }, function (err, data2) {
             if (err) {
                 callback(err, null);
             } else if (data2) {
-                _.each(arr, function(n) {
+                _.each(arr, function (n) {
                     if (data2[n].length !== 0) {
                         ret = false;
                     }
                 });
                 callback(null, ret);
->>>>>>> 4b6b5a2d5f4f78f322f064637ae329c6d02b70d2
             } else {
                 callback("No Data Found", null);
             }
         });
     },
-    manageArrayObject: function(Model, id, data, key, action, callback) {
+    manageArrayObject: function (Model, id, data, key, action, callback) {
         Model.findOne({
             "_id": id
-        }, function(err, data2) {
+        }, function (err, data2) {
             if (err) {
                 callback(err, null);
             } else if (data2) {
@@ -183,7 +94,7 @@ var models = {
                         break;
                     case "delete":
                         {
-                            _.remove(data2[key], function(n) {
+                            _.remove(data2[key], function (n) {
                                 return (n + "") == (data + "");
                             });
                             data2.update(data2, {
@@ -199,7 +110,7 @@ var models = {
 
 
     },
-    GlobalCallback: function(err, data, res) {
+    GlobalCallback: function (err, data, res) {
         if (err) {
             res.json({
                 error: err,
@@ -211,78 +122,8 @@ var models = {
                 value: true
             });
         }
-<<<<<<< HEAD
-      });
-      //else create a resized image and serve
-    } else {
-      readstream.pipe(res);
-    }
-    //error handling, e.g. file does not exist
-  },
-  email: function (data, callback) {
-    Password.find().exec(function (err, userdata) {
-
-      if (err) {
-        console.log(err);
-        callback(err, null);
-      } else if (userdata && userdata.length > 0) {
-        if (data.filename && data.filename != "") {
-          //console.log("filename ", data.filename);
-          request.post({
-            url: requrl + "config/emailReader/",
-            json: data
-          }, function (err, http, body) {
-
-            //console.log("body : ", body);
-            if (err) {
-              console.log(err);
-              callback(err, null);
-            } else {
-              console.log('email else');
-
-              if (body && body.value != false) {
-                var sg = require('sendgrid')(userdata[0].name);
-                var request = sg.emptyRequest({
-                  method: 'POST',
-                  path: '/v3/mail/send',
-                  body: {
-                    personalizations: [{
-                      to: [{
-                        email: 'mansi87@gmail.com',
-                      },{
-                        email: 'kaivalyas@gmail.com',
-                      },{
-                        email: 'mulundpreschool@gmail.com',
-                      },{
-                        email: 'info@weaverspreschool.com',
-                      },],
-                      subject: data.subject,
-                    }, ],
-                    from: {
-                      email: 'info@weaverspreschool.com',
-                    },
-                    content: [{
-                      type: 'text/html',
-                      value: body,
-                    }, ],
-                  },
-                });
-
-                sg.API(request, function (error, response) {
-                  if (error) {
-                    callback(null, error);
-                    console.log('Error response received');
-                  } else {
-                    // console.log(response.statusCode)
-                    // console.log(response.body)
-                    // console.log(response.headers)
-                    // console.log("message sent!!");
-                    callback(null, response);
-                  }
-                })
-=======
     },
-    uploadFile: function(filename, callback) {
+    uploadFile: function (filename, callback) {
         var id = mongoose.Types.ObjectId();
         var extension = filename.split(".").pop();
         extension = extension.toLowerCase();
@@ -290,19 +131,19 @@ var models = {
             extension = "jpg";
         }
 
-                if (extension == "pdf") {
-                  extension = "pdf";
-                  fse.copy('Config.js', 'mynewfile.js', function (err) {
-                  // fse.copy('../../uploads/pdfurl-guide.pdf', '../../uploads/mynewfile.pdf', function (err) {
-                    if (err) return console.error(err)
-                    console.log("success!")
-});
-              // var file = "../uploads/file.txt";
-              // fse.createFile(file, function(err){
-              //   console.log(err);
-              //   console.log("done");
-              // });
-                }
+        if (extension == "pdf") {
+            extension = "pdf";
+            fse.copy('Config.js', 'mynewfile.js', function (err) {
+                // fse.copy('../../uploads/pdfurl-guide.pdf', '../../uploads/mynewfile.pdf', function (err) {
+                if (err) return console.error(err)
+                console.log("success!")
+            });
+            // var file = "../uploads/file.txt";
+            // fse.createFile(file, function(err){
+            //   console.log(err);
+            //   console.log("done");
+            // });
+        }
 
 
         var newFilename = id + "." + extension;
@@ -317,7 +158,7 @@ var models = {
                 filename: newFilename,
                 metadata: metaValue
             });
-            writestream2.on('finish', function() {
+            writestream2.on('finish', function () {
                 callback(null, {
                     name: newFilename
                 });
@@ -327,7 +168,7 @@ var models = {
         }
 
         if (extension == "png" || extension == "jpg" || extension == "gif") {
-            lwip.open(filename, extension, function(err, image) {
+            lwip.open(filename, extension, function (err, image) {
                 if (err) {
                     console.log(err);
                     callback(err, null);
@@ -337,11 +178,10 @@ var models = {
                         height: image.height(),
                         ratio: image.width() / image.height()
                     };
->>>>>>> 4b6b5a2d5f4f78f322f064637ae329c6d02b70d2
 
                     if (upImage.width > upImage.height) {
                         if (upImage.width > MaxImageSize) {
-                            image.resize(MaxImageSize, MaxImageSize / (upImage.width / upImage.height), function(err, image2) {
+                            image.resize(MaxImageSize, MaxImageSize / (upImage.width / upImage.height), function (err, image2) {
                                 if (err) {
                                     console.log(err);
                                     callback(err, null);
@@ -351,7 +191,7 @@ var models = {
                                         height: image2.height(),
                                         ratio: image2.width() / image2.height()
                                     };
-                                    image2.writeFile(filename, function(err) {
+                                    image2.writeFile(filename, function (err) {
                                         writer2(upImage);
                                     });
                                 }
@@ -361,7 +201,7 @@ var models = {
                         }
                     } else {
                         if (upImage.height > MaxImageSize) {
-                            image.resize((upImage.width / upImage.height) * MaxImageSize, MaxImageSize, function(err, image2) {
+                            image.resize((upImage.width / upImage.height) * MaxImageSize, MaxImageSize, function (err, image2) {
                                 if (err) {
                                     console.log(err);
                                     callback(err, null);
@@ -371,7 +211,7 @@ var models = {
                                         height: image2.height(),
                                         ratio: image2.width() / image2.height()
                                     };
-                                    image2.writeFile(filename, function(err) {
+                                    image2.writeFile(filename, function (err) {
                                         writer2(upImage);
                                     });
                                 }
@@ -386,18 +226,18 @@ var models = {
             imageStream.pipe(writestream);
         }
 
-        writestream.on('finish', function() {
+        writestream.on('finish', function () {
             callback(null, {
                 name: newFilename
             });
             fs.unlink(filename);
         });
     },
-    readUploaded: function(filename, width, height, style, res) {
+    readUploaded: function (filename, width, height, style, res) {
         var readstream = gfs.createReadStream({
             filename: filename
         });
-        readstream.on('error', function(err) {
+        readstream.on('error', function (err) {
             res.json({
                 value: false,
                 error: err
@@ -409,7 +249,7 @@ var models = {
                 filename: gridFSFilename,
                 metadata: metaValue
             });
-            writestream2.on('finish', function() {
+            writestream2.on('finish', function () {
                 fs.unlink(filename);
             });
             fs.createReadStream(filename).pipe(res);
@@ -420,7 +260,7 @@ var models = {
             var readstream2 = gfs.createReadStream({
                 filename: filename2
             });
-            readstream2.on('error', function(err) {
+            readstream2.on('error', function (err) {
                 res.json({
                     value: false,
                     error: err
@@ -451,7 +291,7 @@ var models = {
             var newNameExtire = newName + "." + extension;
             gfs.exist({
                 filename: newNameExtire
-            }, function(err, found) {
+            }, function (err, found) {
                 if (err) {
                     res.json({
                         value: false,
@@ -463,8 +303,8 @@ var models = {
                 } else {
                     var imageStream = fs.createWriteStream('./.tmp/uploads/' + filename);
                     readstream.pipe(imageStream);
-                    imageStream.on("finish", function() {
-                        lwip.open('./.tmp/uploads/' + filename, function(err, image) {
+                    imageStream.on("finish", function () {
+                        lwip.open('./.tmp/uploads/' + filename, function (err, image) {
                             ImageWidth = image.width();
                             ImageHeight = image.height();
                             var newWidth = 0;
@@ -501,8 +341,8 @@ var models = {
                                 newWidth = height * (ImageWidth / ImageHeight);
                                 newHeight = height;
                             }
-                            image.resize(parseInt(newWidth), parseInt(newHeight), function(err, image2) {
-                                image2.writeFile('./.tmp/uploads/' + filename, function(err) {
+                            image.resize(parseInt(newWidth), parseInt(newHeight), function (err, image2) {
+                                image2.writeFile('./.tmp/uploads/' + filename, function (err) {
                                     writer2('./.tmp/uploads/' + filename, newNameExtire, {
                                         width: newWidth,
                                         height: newHeight
@@ -519,6 +359,69 @@ var models = {
         }
         //error handling, e.g. file does not exist
     },
+     email: function (data, callback) {
+    Password.find().exec(function (err, userdata) { 
+        if (err) {
+        console.log(err);
+        callback(err, null);
+      } else if (userdata && userdata.length > 0) {
+          if (data.filename && data.filename != "") {
+              request.post({
+            url: requrl + "config/emailReader/",
+            json: data
+          }, function (err, http, body) {
+
+              if (err) {
+              console.log(err);
+              callback(err, null);
+            } else {
+                 var sg = require('sendgrid')(userdata[0].name);
+
+                  var request = sg.emptyRequest({
+                  method: 'POST',
+                  path: '/v3/mail/send',
+                  body: {
+                    personalizations: [{
+                      to: [{
+                        email: 'mansi87@gmail.com',
+                      },{
+                        email: 'kaivalyas@gmail.com',
+                      },{
+                        email: 'mulundpreschool@gmail.com',
+                      },{
+                        email: 'info@weaverspreschool.com',
+                      },], 
+                      subject: data.subject,
+                    }, ],
+                    from: {
+                      email: 'info@weaverspreschool.com',
+                    },
+                    content: [{
+                      type: 'text/html',
+                      value: body,
+                    }, ],
+                  },
+                });
+
+                 sg.API(request, function (error, response) {
+                  if (error) {
+                    callback(null, error);
+                    console.log('Error response received');
+                  } else {
+                    // console.log(response.statusCode)
+                    // console.log(response.body)
+                    // console.log(response.headers)
+                    // console.log("message sent!!");
+                    callback(null, response);
+                  }
+                })
+            }
+
+          })
+          }
+      }
+     })
+    }
 
 };
 module.exports = _.assign(module.exports, models);
