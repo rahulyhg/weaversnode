@@ -24,6 +24,14 @@ var controller = {
       res.json({value:false,data:{message:"Invalid Request"}})
     }
   },
+    getAllImages:function(req,res){
+    if(req.body){
+      Gallery.getAllImages(req.body,res.callback);
+    }
+    else {
+      res.json({value:false,data:{message:"Invalid Request"}})
+    }
+  },
   deleteImages: function(req, res) {
   if (req.body) {
       if (req.body._id && req.body._id !== "") {

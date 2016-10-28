@@ -51,6 +51,22 @@ var model = {
 
         })
     },
+      getAllImages: function (data, callback) {
+        Gallery.find({}).sort({order:1}).exec(function (err, found) {
+            if (err) {
+                // console.log(err);
+                callback(err, null);
+            } else if (found){
+                    callback(null, found);
+                } else {
+                    callback(null, {
+                        message: "No Data Found"
+                    });
+                }
+            
+
+        })
+    },
     saveImages: function (data, callback) {
         //  var product = data.product;
         //  console.log(product);
