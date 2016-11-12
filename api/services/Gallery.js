@@ -14,7 +14,11 @@ var schema = new Schema({
         type: String,
         default: ""
     },
-    order:Number,
+    youtubeLink: {
+        type: String,
+        default: ""
+    },
+    order: Number,
     status: {
         type: String,
         enum: ["true", "false"]
@@ -51,19 +55,21 @@ var model = {
 
         })
     },
-      getAllImages: function (data, callback) {
-        Gallery.find({}).sort({order:1}).exec(function (err, found) {
+    getAllImages: function (data, callback) {
+        Gallery.find({}).sort({
+            order: 1
+        }).exec(function (err, found) {
             if (err) {
                 // console.log(err);
                 callback(err, null);
-            } else if (found){
-                    callback(null, found);
-                } else {
-                    callback(null, {
-                        message: "No Data Found"
-                    });
-                }
-            
+            } else if (found) {
+                callback(null, found);
+            } else {
+                callback(null, {
+                    message: "No Data Found"
+                });
+            }
+
 
         })
     },
