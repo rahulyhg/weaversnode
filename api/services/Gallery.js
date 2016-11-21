@@ -14,6 +14,10 @@ var schema = new Schema({
         type: String,
         default: ""
     },
+    image2:{
+        type:String,
+        default:""
+    },
     youtubeLink: {
         type: String,
         default: ""
