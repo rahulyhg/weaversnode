@@ -14,15 +14,20 @@ var schema = new Schema({
         type: String,
         default: ""
     },
-    image2:{
-        type:String,
-        default:""
+    image2: {
+        type: String,
+        default: ""
     },
     youtubeLink: {
         type: String,
         default: ""
     },
     order: Number,
+    album: {
+        type: Schema.Types.ObjectId,
+        ref: 'Album',
+        index: true
+    },
     status: {
         type: String,
         enum: ["true", "false"]
@@ -34,7 +39,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Gallery', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"album","album"));
 var model = {
     getImages: function (data, callback) {
         console.log(data);
@@ -59,12 +64,33 @@ var model = {
 
         })
     },
+
+
+
     getAllImages: function (data, callback) {
         Gallery.find({}).sort({
             order: 1
         }).exec(function (err, found) {
             if (err) {
                 // console.log(err);
+                callback(err, null);
+            } else if (found) {
+                callback(null, found);
+            } else {
+                callback(null, {
+                    message: "No Data Found"
+                });
+            }
+
+
+        })
+    },
+
+    getAlbum: function (data, callback) {
+        Gallery.find({
+            album: data.album
+        }).exec(function (err, found) {
+            if (err) {
                 callback(err, null);
             } else if (found) {
                 callback(null, found);
