@@ -33,6 +33,6 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Album', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'Album','Album'));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,'Album name','Album name'));
 var model = {};
 module.exports = _.assign(module.exports, exports, model);

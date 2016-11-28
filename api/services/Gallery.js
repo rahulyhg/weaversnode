@@ -39,7 +39,7 @@ schema.plugin(uniqueValidator);
 schema.plugin(timestamps);
 module.exports = mongoose.model('Gallery', schema);
 
-var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"album","album"));
+var exports = _.cloneDeep(require("sails-wohlig-service")(schema,"album album.name","album album.name"));
 var model = {
     getImages: function (data, callback) {
         console.log(data);
@@ -89,7 +89,7 @@ var model = {
     getAlbum: function (data, callback) {
         Gallery.find({
             album: data.album
-        }).exec(function (err, found) {
+        }).populate("album").exec(function (err, found) {
             if (err) {
                 callback(err, null);
             } else if (found) {
